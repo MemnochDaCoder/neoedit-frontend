@@ -1,27 +1,37 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
+  <div id="app">
+    <QuickAccessToolbar />
+    <router-view />
+    <FooterComponent />
+  </div>
 </template>
 
-<script lang="ts">
-import { Options, Vue } from "vue-class-component";
-import HelloWorld from "./components/HelloWorld.vue";
+<script>
+import QuickAccessToolbar from "@/components/QuickAccessToolbar.vue";
+import FooterComponent from "@/components/FooterComponent.vue";
 
-@Options({
+export default {
+  name: "App",
   components: {
-    HelloWorld,
+    QuickAccessToolbar,
+    FooterComponent,
   },
-})
-export default class App extends Vue {}
+};
 </script>
 
 <style>
+body,
+html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: "Source Sans Pro", Arial, sans-serif;
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 </style>
