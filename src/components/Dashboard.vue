@@ -3,7 +3,7 @@
     <h1>Dashboard</h1>
     <div v-if="loading">Loading...</div>
     <div v-else>
-      <p>Data from backend:</p>
+      <p>Data:</p>
       <pre>{{ data }}</pre>
     </div>
   </div>
@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from "vue";
-import { fetchData } from "@/services/api";
+import { fetchData } from "../services/api";
 
 export default defineComponent({
   name: "Dashboard",
@@ -21,7 +21,7 @@ export default defineComponent({
 
     onMounted(async () => {
       loading.value = true;
-      data.value = await fetchData();
+      data.value = await fetchData("/dashboard-data");
       loading.value = false;
     });
 
@@ -32,9 +32,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style scoped>
-.dashboard {
-  /* Styles for your dashboard */
-}
-</style>

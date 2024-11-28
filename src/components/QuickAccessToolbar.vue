@@ -9,28 +9,23 @@
 </template>
 
 <script>
+import CacheService from "@/services/cacheService";
+
 export default {
   name: "QuickAccessToolbar",
   methods: {
     newFile() {
-      // Logic to handle creating a new file
       console.log("Create a new file");
+      CacheService.saveToLocalStorage("lastAction", "New File");
     },
     openRecent() {
-      // Logic to handle opening recent files
       console.log("Open recent files");
+      CacheService.saveToLocalStorage("lastAction", "Open Recent");
     },
     openSettings() {
-      // Logic to handle opening settings
       console.log("Open settings");
+      CacheService.saveToLocalStorage("lastAction", "Settings");
     },
   },
 };
 </script>
-
-<style scoped>
-.quick-access-toolbar {
-  background-color: #f8f9fa;
-  /* Light background for the toolbar */
-}
-</style>

@@ -1,7 +1,6 @@
 <template>
   <div class="advanced-find">
     <h1>Advanced Find</h1>
-    <p>Let's explore the find feature:</p>
     <ul>
       <li>
         <p>
@@ -11,64 +10,38 @@
       </li>
       <li>
         <p>Click <button @click="executeFind('John')">Find</button>.</p>
-        <p>In the find dialog, enter "John".</p>
-        <p>Make sure none of the boxes are checked.</p>
-        <p>Hit "Find All".</p>
-        <p>
-          In addition to "John" alone, it also found the "John" in "Johnson".
-        </p>
-      </li>
-      <li>
-        <p>
-          Click
-          <button @click="executeRegexFind('\\w+ \\w+ \\w+', true)">
-            Find with Regex</button
-          >.
-        </p>
-        <p>
-          In the find dialog, enter "\w+ \w+ \w+". (This regular expression
-          finds three words separated by spaces.)
-        </p>
+        <p>Results:</p>
+        <pre>{{ results }}</pre>
       </li>
     </ul>
-    <p>
-      For more information about regular expressions, click the
-      <button @click="showRegexHelp">RegEx Help</button> button.
-    </p>
+    <button @click="clearCache">Clear Cache</button>
   </div>
 </template>
 
 <script>
+import CacheService from "@/services/cacheService";
+
 export default {
   name: "AdvancedFind",
+  data() {
+    return {
+      results: CacheService.getFromLocalStorage("findResults") || [],
+    };
+  },
   methods: {
     openFileWithData() {
-      // For demonstration, simply log to console
       console.log("Simulated file opening with test data.");
     },
     executeFind(searchTerm) {
-      // For demonstration, simply log to console
-      console.log(`Simulated finding of the term: ${searchTerm}`);
+      console.log(`Finding: ${searchTerm}`);
+      const result = `Results for ${searchTerm}`;
+      this.results = [result, ...this.results.slice(0, 9)]; // Limit to 10 results
+      CacheService.saveToLocalStorage("findResults", this.results);
     },
-    executeRegexFind(regex, regexEnabled = false) {
-      // For demonstration, simply log to console
-      console.log(
-        `Simulated regex search with: ${regex}, regex enabled: ${regexEnabled}`
-      );
-    },
-    showRegexHelp() {
-      // For demonstration, simply log to console
-      console.log("Simulated action to show regex help.");
+    clearCache() {
+      CacheService.clearLocalStorage();
+      this.results = [];
     },
   },
 };
 </script>
-
-<style scoped>
-.advanced-find ul {
-  list-style-type: none;
-}
-.advanced-find li p {
-  margin-bottom: 5px;
-}
-</style>
