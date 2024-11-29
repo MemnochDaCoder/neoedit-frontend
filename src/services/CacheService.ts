@@ -4,10 +4,9 @@ export default class CacheService {
     localStorage.setItem(key, JSON.stringify(value));
   }
 
-  // Get data from localStorage
   static getFromLocalStorage<T>(key: string): T | null {
-    const item = localStorage.getItem(key);
-    return item ? JSON.parse(item) : null;
+    const data = localStorage.getItem(key);
+    return data ? (JSON.parse(data) as T) : null;
   }
 
   // Remove data from localStorage

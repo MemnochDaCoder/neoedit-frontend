@@ -1,5 +1,5 @@
 <script>
-import CacheService from "@/services/cacheService";
+import CacheService from "@/services/cacheservice";
 
 export default {
   name: "RecentFilesComponent",
@@ -17,7 +17,9 @@ export default {
       CacheService.saveToLocalStorage("recentFiles", this.recentFiles);
     },
     removeRecentFile(fileName) {
-      this.recentFiles = this.recentFiles.filter((file) => file.name !== fileName);
+      this.recentFiles = this.recentFiles.filter(
+        (file) => file.name !== fileName
+      );
       CacheService.saveToLocalStorage("recentFiles", this.recentFiles);
     },
   },

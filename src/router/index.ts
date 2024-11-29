@@ -1,9 +1,18 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Home from "../views/HomePage.vue";
-import TutorialView from "../views/TutorialView.vue";
-import Dashboard from "../views/Dashboard.vue"; // New Dashboard page
-import RecentFiles from "../views/RecentFiles.vue"; // New Recent Files page
-import store from "@/store"; // Vuex store for managing authentication state
+import Home from "@/views/HomePage.vue";
+import AdvancedFind from "@/components/AdvancedFind.vue";
+import DashboardComponent from "@/components/DashboardComponent.vue";
+import DashboardMetrics from "@/components/DashboardMetrics.vue";
+import Footer from "@/components/FooterComponent.vue";
+import Hero from "@/components/HeroComponent.vue";
+import QuickAccessToolbar from "@/components/QuickAccessToolbar.vue";
+import RecentFiles from "@/components/RecentFilesComponent.vue";
+import store from "@/store";
+
+// Define the shape of the Vuex store state
+interface RootState {
+  isAuthenticated: boolean; // Add the relevant properties here
+}
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
@@ -15,26 +24,47 @@ const router = createRouter({
     },
     {
       path: "/tutorials",
-      name: "Tutorials",
-      component: TutorialView,
+      name: "AdvancedFind",
+      component: AdvancedFind,
     },
     {
-      path: "/dashboard",
-      name: "Dashboard",
-      component: Dashboard,
-      meta: { requiresAuth: true }, // Requires authentication
+      path: "/dashboard-component",
+      name: "DashboardView",
+      component: DashboardComponent,
+      meta: { requiresAuth: true },
     },
     {
       path: "/recent-files",
       name: "RecentFiles",
       component: RecentFiles,
     },
+    {
+      path: "/quick-access",
+      name: "QuickAccessToolbar",
+      component: QuickAccessToolbar,
+    },
+    {
+      path: "/dashboard-metrics",
+      name: "DashboardMetrics",
+      component: DashboardMetrics,
+    },
+    {
+      path: "/footer",
+      name: "Footer",
+      component: Footer,
+    },
+    {
+      path: "/hero",
+      name: "HeroComponent",
+      component: Hero,
+    },
   ],
 });
 
 // Add a navigation guard for authentication
 router.beforeEach((to, from, next) => {
-  if (to.meta.requiresAuth && !store.state.isAuthenticated) {
+  const state = store.state as RootState; // Explicitly cast `store.state` to `RootState`
+  if (to.meta.requiresAuth && !state.isAuthenticated) {
     next({ name: "HomePage" }); // Redirect to HomePage if not authenticated
   } else {
     next();

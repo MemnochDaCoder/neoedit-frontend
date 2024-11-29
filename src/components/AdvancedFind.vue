@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import CacheService from "@/services/cacheService";
+import CacheService from "@/services/cacheservice";
 
 export default {
   name: "AdvancedFind",

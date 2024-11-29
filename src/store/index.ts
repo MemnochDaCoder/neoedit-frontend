@@ -1,14 +1,20 @@
 import { createStore, Module } from "vuex";
-import CacheService from "@/services/cacheService"; // Ensure this service exists
+import CacheService from "@/services/cacheservice"; // Ensure this service exists
+
+// Define the structure of a file object
+interface FileMetadata {
+  name: string;
+  path: string;
+}
 
 // File Module for Managing File Metadata
-const fileModule: Module<any, any> = {
+const fileModule: Module<{ files: FileMetadata[] }, unknown> = {
   namespaced: true,
   state: () => ({
-    files: CacheService.getFromLocalStorage<Array<{ name: string; path: string }>>("files") || []
+    files: CacheService.getFromLocalStorage<FileMetadata[]>("files") || [],
   }),
   mutations: {
-    addFile(state, file: { name: string; path: string }) {
+    addFile(state, file: FileMetadata) {
       state.files.push(file);
       CacheService.saveToLocalStorage("files", state.files);
     },
@@ -19,10 +25,10 @@ const fileModule: Module<any, any> = {
     clearFiles(state) {
       state.files = [];
       CacheService.clearLocalStorage();
-    }
+    },
   },
   actions: {
-    addFile({ commit }, file: { name: string; path: string }) {
+    addFile({ commit }, file: FileMetadata) {
       commit("addFile", file);
     },
     removeFile({ commit }, fileName: string) {
@@ -30,20 +36,20 @@ const fileModule: Module<any, any> = {
     },
     clearFiles({ commit }) {
       commit("clearFiles");
-    }
+    },
   },
   getters: {
     getFiles(state) {
       return state.files;
-    }
-  }
+    },
+  },
 };
 
 // Root Store
 const store = createStore({
   modules: {
-    file: fileModule
-  }
+    file: fileModule,
+  },
 });
 
 export default store;
